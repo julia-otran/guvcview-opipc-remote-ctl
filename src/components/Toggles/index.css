@@ -1,0 +1,16 @@
+.toggles {
+  display: flex;
+}
+
+.toggles button {
+  flex: 1;
+  height:  48px;
+}
+
+.toggles button.active {
+  background-color: #999;
+}
+
+.toggles button + button {
+  margin-left: 24px;
+}
