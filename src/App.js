@@ -9,9 +9,12 @@ import { submitContext } from './constants';
 const SubmitProvider = submitContext.Provider;
 
 function App() {
-  const { isLoading, data, isSuccess } = useQuery('controls', () => get('/guvcview/ctrl.json').then(({ data }) => data));
+  const { mutate, isLoading: isMutating } = useMutation((values) => put('/guvcview/ctrl.json', values));
 
-  const { mutate } = useMutation((values) => put('/guvcview/ctrl.json', values));
+  const { isLoading, data, isSuccess, refetch } = useQuery('controls', () => get('/guvcview/ctrl.json').then(({ data }) => data), {
+    refetchInterval: 1000,
+    enabled: !isMutating,
+  });
 
   const queryClient = useQueryClient();
 
@@ -20,10 +23,13 @@ function App() {
 
     queryClient.setQueryData('controls', newData);
 
-    mutate(newData, { onError: () => {
-      queryClient.setQueryData('controls', data);
-    }, });
-  }, [mutate, data, queryClient]);
+    mutate(newData, {
+      onError: () => {
+        queryClient.setQueryData('controls', data);
+      },
+      onSuccess: () => refetch({ cancelRefetch : true }),
+    });
+  }, [mutate, data, queryClient, refetch]);
 
   return (
     <div className="App">
