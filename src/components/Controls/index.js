@@ -1,10 +1,11 @@
-import Control from '../Control';
 import "./index.css";
+
+import Control from '../Control';
 
 const Controls = ({ data }) => {
 
   return <div className="controls">
-    {data.map(ctrl => (<Control data={ctrl} key={ctrl.ctrlName} />))}
+    {data && data.map(ctrl => (<Control data={ctrl} key={ctrl.ctrlName} />))}
   </div>;
 
 };
