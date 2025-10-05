@@ -1,17 +1,18 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { get, put } from 'axios';
-import { useCallback } from 'react';
-
 import './App.css';
+
+import { get, put } from 'axios';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+
 import Controls from './components/Controls';
 import { submitContext } from './constants';
+import { useCallback } from 'react';
 
 const SubmitProvider = submitContext.Provider;
 
 function App() {
-  const { mutate, isLoading: isMutating } = useMutation((values) => put('/guvcview/ctrl.json', values));
+  const { mutate, isLoading: isMutating } = useMutation((values) => put('/camview/ctrl.json', values));
 
-  const { isLoading, data, isSuccess, refetch } = useQuery('controls', () => get('/guvcview/ctrl.json').then(({ data }) => data), {
+  const { isLoading, data, isSuccess, refetch } = useQuery('controls', () => get('/camview/ctrl.json').then(({ data }) => data), {
     refetchInterval: 1000,
     enabled: !isMutating,
   });
@@ -19,9 +20,9 @@ function App() {
   const queryClient = useQueryClient();
 
   const handleChange = useCallback((name, ctrlValue) => {
-    let newData = data.map(d => d.ctrlName === name ? { ...d, ctrlValue } : d);
+    let newData = data.device.map(d => d.ctrlName === name ? { ...d, ctrlValue } : d);
 
-    queryClient.setQueryData('controls', newData);
+    queryClient.setQueryData('controls', { device: newData });
 
     mutate(newData, {
       onError: () => {
@@ -43,7 +44,7 @@ function App() {
 
         {isSuccess && (
           <SubmitProvider value={{ onChange: handleChange }}>
-            <Controls data={data} />
+            <Controls data={data.device} />
           </SubmitProvider>
         )}
     </div>
