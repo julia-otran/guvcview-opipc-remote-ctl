@@ -24,7 +24,7 @@ function App() {
 
     queryClient.setQueryData('controls', { device: newData });
 
-    mutate(newData, {
+    mutate({ device: newData }, {
       onError: () => {
         queryClient.setQueryData('controls', data);
       },
