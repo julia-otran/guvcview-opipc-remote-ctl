@@ -1,7 +1,7 @@
-import Toggles from '../Toggles';
 import Slider from '../Slider';
+import Toggles from '../Toggles';
 
-const Control = ({ data }) => {
+const Control = ({ data, onChange }) => {
   const possibleValueCount = Math.ceil((data.ctrlMax - (data.ctrlMin - data.ctrlStep)) / data.ctrlStep);
 
   const ControlComponent = data.ctrlMenu || possibleValueCount <= 10 ? Toggles : Slider;
@@ -12,7 +12,7 @@ const Control = ({ data }) => {
     <p>{data.ctrlName}</p>
 
     {canControl && (
-      <ControlComponent data={data} />
+      <ControlComponent data={data} onChange={onChange} />
     )}
   </div>
 }

@@ -1,11 +1,8 @@
-import { useCallback, useContext } from 'react';
-
-import { submitContext } from '../../constants';
 import "./index.css";
 
-const Button = ({ value, name, active, children }) => {
-  const { onChange } = useContext(submitContext);
+import { useCallback } from 'react';
 
+const Button = ({ value, name, active, children, onChange }) => {
   const handleClick = useCallback(() => {
     onChange(name, value);
   }, [name, value, onChange]);
@@ -13,7 +10,7 @@ const Button = ({ value, name, active, children }) => {
   return <button type="button" onClick={handleClick} className={active ? "active" : ""}>{children}</button>;
 }
 
-const Toggles = ({ data }) => {
+const Toggles = ({ data, onChange }) => {
   const buttonValues = [];
 
   if (data.ctrlMenu) {
@@ -30,7 +27,16 @@ const Toggles = ({ data }) => {
   }
 
   return <div className="toggles">
-  {buttonValues.map(val => (<Button value={val.value} name={data.ctrlName} key={val.value.toString()} active={val.value === data.ctrlValue}>{val.name}</Button>))}
+    {buttonValues.map(val => (
+      <Button
+        onChange={onChange}
+        value={val.value}
+        name={data.ctrlName}
+        key={val.value.toString()}
+        active={val.value === data.ctrlValue}>
+	  {val.name}
+      </Button>
+    ))}
 </div>
 };
 

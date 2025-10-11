@@ -4,6 +4,7 @@ import { get, put } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import Controls from './components/Controls';
+import DisplayControls from './components/DisplayControls';
 import { submitContext } from './constants';
 import { useCallback } from 'react';
 
@@ -20,11 +21,22 @@ function App() {
   const queryClient = useQueryClient();
 
   const handleChange = useCallback((name, ctrlValue) => {
-    let newData = data.device.map(d => d.ctrlName === name ? { ...d, ctrlValue } : d);
+    let device = data.device.map(d => d.ctrlName === name ? { ...d, ctrlValue } : d);
 
-    queryClient.setQueryData('controls', { device: newData });
+    queryClient.setQueryData('controls', { ...data, device });
 
-    mutate({ device: newData }, {
+    mutate({ ...data, device }, {
+      onError: () => {
+        queryClient.setQueryData('controls', data);
+      },
+      onSuccess: () => refetch({ cancelRefetch : true }),
+    });
+  }, [mutate, data, queryClient, refetch]);
+
+  const handleChangeDisplay = useCallback((display) => {
+    queryClient.setQueryData('controls', { ...data, display });
+
+    mutate({ ...data, display }, {
       onError: () => {
         queryClient.setQueryData('controls', data);
       },
@@ -45,6 +57,7 @@ function App() {
         {isSuccess && (
           <SubmitProvider value={{ onChange: handleChange }}>
             <Controls data={data.device} />
+	    <DisplayControls data={data.display} onChange={handleChangeDisplay} />
           </SubmitProvider>
         )}
     </div>
