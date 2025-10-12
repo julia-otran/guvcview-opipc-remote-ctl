@@ -37,11 +37,11 @@ const DISPLAY_CONTROL_MAP = [
   },
   {
     ctrlName: "FCC: Hue Green Max",
-    ctrlValue: (data) => data.fcc.hr_hue_max,
+    ctrlValue: (data) => data.fcc.hg_hue_max,
     ctrlMin: 0,
     ctrlMax: 4095,
     ctrlStep: 1,
-    onChange: (data, value) => ({ ...data, fcc: { ...data.fcc, hr_hue_max: value } })
+    onChange: (data, value) => ({ ...data, fcc: { ...data.fcc, hg_hue_max: value } })
   },
   {
     ctrlName: "FCC: Hue Blue Min",
