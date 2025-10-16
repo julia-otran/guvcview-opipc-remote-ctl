@@ -275,6 +275,135 @@ const DISPLAY_CONTROL_MAP = [
     ctrlStep: 1,
     onChange: (data, value) => ({ ...data, bws: { ...data.bws, slope3: value } })
   },
+  {
+    ctrlName: "LTI: enable",
+    ctrlMin: 0,
+    ctrlMax: 0xFFFFFFFF,
+    ctrlStep: 1,
+    ctrlMenu: [{ menuItemName: "Disabled", menuItemValue: 0 }, { menuItemName: "Enabled", menuItemValue: 16777217 }],
+    ctrlValue: (data) => data.lti.enable,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, enable: value } }),
+  },
+  {
+    ctrlName: "LTI: c0",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.c0,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, c0: value } }),
+  },
+  {
+    ctrlName: "LTI: c1",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.c1,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, c1: value } }),
+  },
+  {
+    ctrlName: "LTI: c2",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.c2,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, c2: value } }),
+  },
+  {
+    ctrlName: "LTI: c3",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.c3,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, c3: value } }),
+  },
+  {
+    ctrlName: "LTI: c4",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.c4,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, c4: value } }),
+  },
+  {
+    ctrlName: "LTI: fir_gain",
+    ctrlMin: 0,
+    ctrlMax: 15,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.fir_gain,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, fir_gain: value } }),
+  },
+  {
+    ctrlName: "LTI: cor_th",
+    ctrlMin: 0,
+    ctrlMax: 511,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.cor_th,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, cor_th: value } }),
+  },
+  {
+    ctrlName: "LTI: diff_offset",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.diff_offset,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, diff_offset: value } }),
+  },
+  {
+    ctrlName: "LTI: diff_slope",
+    ctrlMin: 0,
+    ctrlMax: 0b11111,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.diff_slope,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, diff_slope: value } }),
+  },
+  {
+    ctrlName: "LTI: edge_gain",
+    ctrlMin: 0,
+    ctrlMax: 0b11111,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.edge_gain,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, edge_gain: value } }),
+  },
+  {
+    ctrlName: "LTI: core_x",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.core_x,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, core_x: value } }),
+  },
+  {
+    ctrlName: "LTI: clip_y",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.clip_y,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, clip_y: value } }),
+  },
+  {
+    ctrlName: "LTI: peak_limit",
+    ctrlMin: 0,
+    ctrlMax: 0b111,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.peak_limit,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, peak_limit: value } }),
+  },
+  {
+    ctrlName: "LTI: win_expansion",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.win_expansion,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, win_expansion: value } }),
+  },
+  {
+    ctrlName: "LTI: edge_level_th",
+    ctrlMin: 0,
+    ctrlMax: 255,
+    ctrlStep: 1,
+    ctrlValue: (data) => data.lti.edge_level_th,
+    onChange: (data, value) => ({ ...data, lti: { ...data.lti, edge_level_th: value } }),
+  },
 ];
 
 const DisplayControls = ({ data, onChange }) => {
@@ -282,7 +411,7 @@ const DisplayControls = ({ data, onChange }) => {
     {DISPLAY_CONTROL_MAP.map((ctrl) => (
       <Control
         data={{ ...ctrl, ctrlValue: ctrl.ctrlValue(data) }}
-        key={ctrl.name}
+        key={ctrl.ctrlName}
         onChange={(_, value) => onChange(ctrl.onChange(data, Number(value)))}
       />
     ))}
